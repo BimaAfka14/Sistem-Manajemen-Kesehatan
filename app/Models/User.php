@@ -50,12 +50,12 @@ class User extends Authenticatable
     }
 
     public function periksa_pasien()
-{
-    return $this->hasMany(Periksa::class, 'id_pasien', 'id');
-}
+    {
+        return $this->hasMany(Periksa::class, 'id_pasien', 'id');
+    }
 
-public function periksa_dokter()
-{
-    return $this->hasMany(Periksa::class, 'id_dokter', 'id');
-}
+    public function periksa_dokter()
+    {
+        return $this->hasMany(Periksa::class, 'id_dokter', 'id');
+    }
 }
