@@ -9,8 +9,8 @@ class Obat extends Model
     //
     protected $fillable = ['nama_obat', 'kemasan', 'harga'];
 
-    public function detail_obat()
+    public function detail_periksa()
     {
-        return $this->hasMany(Obat::class, 'id_obat', 'id');
+        return $this->hasMany(Detail_Periksa::class, 'id_obat', 'id');
     }
 }
