@@ -1,4 +1,5 @@
 @include('layouting.header', ['title' => 'Dashboard Pasien'])
+
 <!-- Sidebar Menu -->
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -58,89 +59,63 @@
         <i class="fas fa-pills"></i> Jangan lupa minum obat hari ini pukul 08:00 dan 20:00!
       </div>
 
-      <!-- Stat Box -->
+      <!-- Stat Box Riwayat -->
       <div class="row">
         <div class="col-lg-3 col-6">
           <div class="small-box" style="background-color: #e0f7fa; color: #004d40;">
             <div class="inner">
-              <h3>{{ $jumlahRiwayat ?? 0 }}</h3>
+              <h3>{{ $jumlahRiwayat }}</h3>
               <p>Riwayat Pemeriksaan</p>
             </div>
             <div class="icon">
               <i class="fas fa-notes-medical"></i>
             </div>
+            <a href="{{ route('periksaPasien') }}" class="small-box-footer text-dark">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
-
-        <div class="col-lg-3 col-6">
-          <div class="small-box" style="background-color: #d0f0c0; color: #33691e;">
-            <div class="inner">
-              <h3>{{ $kunjunganHariIni ?? 0 }}</h3>
-              <p>Kunjungan Hari Ini</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-user-check"></i>
-            </div>
-            <a href="#" class="small-box-footer text-dark">Lihat Detail <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-6">
-          <div class="small-box" style="background-color: #f1f8e9; color: #558b2f;">
-            <div class="inner">
-              <h3>{{ $jumlahPasien ?? 0 }}</h3>
-              <p>Pasien Terdaftar</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-user-plus"></i>
-            </div>
-            <a href="#" class="small-box-footer text-dark">Lihat Semua <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-
-        <div class="col-lg-3 col-6">
-          <div class="small-box" style="background-color: #e3f2fd; color: #1565c0;">
-            <div class="inner">
-              <h3>{{ $jumlahPengunjung ?? 0 }}</h3>
-              <p>Pengunjung Unik</p>
-            </div>
-            <div class="icon">
-              <i class="fas fa-users"></i>
-            </div>
-            <a href="#" class="small-box-footer text-dark">Statistik <i class="fas fa-arrow-circle-right"></i></a>
-          </div>
-        </div>
-      </div>
+      </div> <!-- Tutup row stat box -->
 
       <!-- Kartu Informasi Tambahan -->
       <div class="row">
+        <!-- Jadwal Kontrol -->
         <div class="col-md-6">
-          <div class="card border-left-success shadow h-100 py-2">
-            <div class="card-header bg-light">
-              <h3 class="card-title text-success">Jadwal Kontrol Berikutnya</h3>
+          @if ($jadwalKontrol)
+            <div class="card border-left-success shadow h-100 py-2">
+              <div class="card-header bg-light">
+                <h3 class="card-title text-success">Jadwal Kontrol Berikutnya</h3>
+              </div>
+              <div class="card-body">
+                <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($jadwalKontrol->tgl_periksa)->translatedFormat('d F Y') }}</p>
+                <p><strong>Dokter:</strong> {{ $jadwalKontrol->dokter ? $jadwalKontrol->dokter->name : '-' }}</p>
+              </div>
             </div>
-            <div class="card-body">
-              <p><strong>Tanggal:</strong> {{ $jadwalKontrol ?? 'Belum ada jadwal' }}</p>
-              <p><strong>Dokter:</strong> {{ $namaDokter ?? '-' }}</p>
-              <p><strong>Poli:</strong> {{ $namaPoli ?? '-' }}</p>
+          @else
+            <div class="alert alert-warning">
+              <p>Belum ada jadwal kontrol berikutnya.</p>
             </div>
-          </div>
-        </div>
+          @endif
+        </div>        
 
-        <div class="col-md-6">
-          <div class="card border-left-info shadow h-100 py-2">
-            <div class="card-header bg-light">
-              <h3 class="card-title text-info">Pesan Dokter</h3>
-            </div>
-            <div class="card-body">
-              <p>{{ $pesanDokter ?? 'Tidak ada pesan terbaru.' }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
+        <!-- Pesan Dokter -->
+<div class="col-md-6">
+  <div class="card border-left-info shadow h-100 py-2">
+    <div class="card-header bg-light">
+      <h3 class="card-title text-info">Pesan Dokter</h3>
     </div>
-  </section>
+    <div class="card-body">
+      @if (!empty($pesanDokter))
+        <p>{{ $pesanDokter }}</p>
+      @else
+        <p class="text-muted">Tidak ada pesan terbaru.</p>
+      @endif
+    </div>
+  </div>
 </div>
+
+      </div> <!-- Tutup row kartu informasi -->
+
+    </div> <!-- Tutup container -->
+  </section>
+</div> <!-- Tutup content-wrapper -->
 
 @include('layouting.footer')

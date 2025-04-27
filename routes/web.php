@@ -7,7 +7,7 @@ use App\Http\Controllers\DokterController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('dashboard');
 
 // routes untuk authentication login/register
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
